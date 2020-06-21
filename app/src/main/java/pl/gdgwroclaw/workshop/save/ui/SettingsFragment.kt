@@ -1,6 +1,5 @@
 package pl.gdgwroclaw.workshop.save.ui
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.edit
@@ -16,14 +15,17 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        nameEditText.setText(preferences.getString(USER_NAME_KEY, null))
+        notificationsCheckBox.isChecked = preferences.getBoolean(NOTIFICATIONS_ENABLED_KEY, false)
+
         saveButton.setOnClickListener {
             preferences.edit {
                 putString(USER_NAME_KEY, nameEditText.text.toString())
                 putBoolean(NOTIFICATIONS_ENABLED_KEY, notificationsCheckBox.isChecked)
             }
         }
-        nameEditText.setText(preferences.getString(USER_NAME_KEY, null))
-        notificationsCheckBox.isChecked = preferences.getBoolean(NOTIFICATIONS_ENABLED_KEY, false)
     }
 }

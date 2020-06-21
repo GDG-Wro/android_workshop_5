@@ -17,5 +17,5 @@ interface ShoppingListDao {
     suspend fun insert(item: Item)
 
     @Query("DELETE FROM item WHERE id = :id")
-    suspend fun delete(id: Long)
+    suspend fun delete(id: Int)
 }

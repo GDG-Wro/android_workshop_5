@@ -12,25 +12,18 @@ abstract class ShoppingListDatabase : RoomDatabase() {
     abstract fun dao(): ShoppingListDao
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time. 
-        @Volatile
-        private var INSTANCE: ShoppingListDatabase? = null
+        private lateinit var applicationContext: Context
 
-        fun getDatabase(context: Context): ShoppingListDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ShoppingListDatabase::class.java,
-                    "shopping_list"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
+        val database by lazy {
+            Room.databaseBuilder(
+                applicationContext,
+                ShoppingListDatabase::class.java,
+                "shopping_list.db"
+            ).build()
+        }
+
+        fun initialize(context: Context) {
+            applicationContext = context.applicationContext
         }
     }
 }

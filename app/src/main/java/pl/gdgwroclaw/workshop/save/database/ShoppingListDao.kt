@@ -13,7 +13,7 @@ interface ShoppingListDao {
     @Query("SELECT * from item ORDER BY name ASC")
     fun getItems(): Flow<List<Item>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
 
     @Query("DELETE FROM item WHERE id = :id")

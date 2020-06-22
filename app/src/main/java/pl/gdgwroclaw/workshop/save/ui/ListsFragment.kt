@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.gdgwroclaw.workshop.save.R
 import pl.gdgwroclaw.workshop.save.database.ShoppingListDatabase
+import pl.gdgwroclaw.workshop.save.model.Shop
 
 class ListsFragment : Fragment(R.layout.fragment_lists) {
 
@@ -26,7 +27,7 @@ class ListsFragment : Fragment(R.layout.fragment_lists) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 lifecycleScope.launch {
-                    dao.delete(shoppingListItemAdapter.currentList[viewHolder.adapterPosition].id)
+                    dao.delete(shoppingListItemAdapter.currentList[viewHolder.adapterPosition].item.id)
                 }
             }
         })
@@ -48,7 +49,9 @@ class ListsFragment : Fragment(R.layout.fragment_lists) {
         itemTouchHelper.attachToRecyclerView(shoppingRecyclerView)
 
         lifecycleScope.launch {
-            dao.getItems().collect {
+            dao.insertShop(Shop(id = 1, name = "Biedronka", address = "x"))
+            dao.insertShop(Shop(id = 2, name = "Lidl", address = "y"))
+            dao.getItemsWithShops().collect {
                 shoppingListItemAdapter.submitList(it)
             }
         }

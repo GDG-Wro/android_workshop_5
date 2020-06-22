@@ -1,10 +1,12 @@
 package pl.gdgwroclaw.workshop.save.ui
 
 import androidx.recyclerview.widget.DiffUtil
-import pl.gdgwroclaw.workshop.save.model.Item
+import pl.gdgwroclaw.workshop.save.model.ItemWithShop
 
-object ShoppingItemDiffCallback : DiffUtil.ItemCallback<Item>() {
-    override fun areItemsTheSame(oldItem: Item, newItem: Item) = oldItem.id == newItem.id
+object ShoppingItemDiffCallback : DiffUtil.ItemCallback<ItemWithShop>() {
+    override fun areItemsTheSame(oldItem: ItemWithShop, newItem: ItemWithShop) =
+        oldItem.item.id == newItem.item.id
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item) = oldItem == newItem
+    override fun areContentsTheSame(oldItem: ItemWithShop, newItem: ItemWithShop) =
+        oldItem == newItem
 }

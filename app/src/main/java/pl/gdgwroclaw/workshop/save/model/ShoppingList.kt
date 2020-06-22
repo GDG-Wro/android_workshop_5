@@ -9,7 +9,8 @@ data class Item(
     val id: Int = 0,
     val name: String,
     @Embedded
-    val quantity: Quantity
+    val quantity: Quantity,
+    val shopId: Int
 )
 
 data class Quantity(
@@ -21,6 +22,21 @@ data class Quantity(
 enum class UnitOfMeasurement {
     Piece, Kilogram, Litre
 }
+
+@Entity
+data class Shop(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val name: String,
+    val address: String
+)
+
+data class ItemWithShop(
+    @Embedded
+    val item: Item,
+    @Relation(parentColumn = "shopId", entityColumn = "id")
+    val shop: Shop
+)
 
 class Converters {
     @TypeConverter
